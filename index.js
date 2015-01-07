@@ -1,6 +1,6 @@
 var AbstractClientStore = require('express-brute/lib/AbstractClientStore');
 var mysql = require('mysql');
-var _ = require('lodash');
+var _ = require('underscore');
 
 var MysqlStore = module.exports = function (options) {
 	AbstractClientStore.apply(this, arguments);
