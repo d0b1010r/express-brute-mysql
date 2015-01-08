@@ -15,21 +15,21 @@ MysqlStore.prototype.set = function mysqlstore_set (key, value, lifetime, callba
 	lifetime = parseInt(lifetime, 10) || 0;
 	var expires = new Date(Date.now() + lifetime);
 	value = JSON.stringify(value);
-	this.client.query('REPLACE INTO '  + this.options.table + ' (`id`, `data`, `expires`) VALUES (?, ?, ?)', [key, value, expires], function (err, res) {
+	this.client.query('REPLACE INTO `'  + this.options.table + '` (`id`, `data`, `expires`) VALUES (?, ?, ?)', [key, value, expires], function (err, res) {
 		if (callback) { return callback(err, res); }
 	});
 };
 MysqlStore.prototype.get = function mysqlstore_get (key, callback) {
 	var options = this.options;
 	var client = this.client;
-	client.query('SELECT * FROM '  + options.table + ' WHERE `id` = ? LIMIT 1', [key], function (err, res) {
+	client.query('SELECT * FROM `'  + options.table + '` WHERE `id` = ? LIMIT 1', [key], function (err, res) {
 		res = res.length && res[0];
 		if (err && callback) { return callback(err); }
 		if (callback) {
 			var data;
 			if (!res) { return callback(); }
 			if (res.expires < Date.now()) {
-				client.query('DELETE * FROM '  + options.table + ' WHERE `id` = ? LIMIT 1', [key], function (err, res) {
+				client.query('DELETE * FROM `'  + options.table + '` WHERE `id` = ? LIMIT 1', [key], function (err, res) {
 					return callback();
 				});
 			} else {
@@ -46,7 +46,7 @@ MysqlStore.prototype.get = function mysqlstore_get (key, callback) {
 	});
 };
 MysqlStore.prototype.reset = function mysqlstore_reset (key, callback) {
-	this.client.query('DELETE FROM '  + this.options.table + ' WHERE `id` = ? LIMIT 1', [key], function (err, res) {
+	this.client.query('DELETE FROM `'  + this.options.table + '` WHERE `id` = ? LIMIT 1', [key], function (err, res) {
 		if (callback) { return callback(err, res); }
 	});
 };
