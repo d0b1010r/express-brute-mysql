@@ -33,7 +33,11 @@ MysqlStore.prototype.get = function mysqlstore_get (key, callback) {
 					return callback();
 				});
 			} else {
-				try { data = JSON.parse(res.data); } catch (e) {}
+				try {
+					data = JSON.parse(res.data);
+				} catch (err) {
+					return callback(err);
+				}
 				data.lastRequest = new Date(data.lastRequest);
 				data.firstRequest = new Date(data.firstRequest);
 				return callback(null, data);
