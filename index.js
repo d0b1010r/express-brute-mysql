@@ -2,14 +2,14 @@ var AbstractClientStore = require('express-brute/lib/AbstractClientStore');
 var mysql = require('mysql');
 var _ = require('underscore');
 
-module.exports = function MysqlStore (options) {
+function MysqlStore (options) {
 	AbstractClientStore.apply(this, arguments);
 	var client = this.client = mysql.createConnection(this.options);
 	this.options = _.extend({}, MysqlStore.defaults, options);
 	client.connect();
 	client.query('CREATE TABLE IF NOT EXISTS `'  + this.options.table + '` (`id` varchar(255), `data` TEXT, `expires` datetime, PRIMARY KEY (`id`))', function (err, res) {
 	});
-};
+}
 MysqlStore.prototype = Object.create(AbstractClientStore.prototype);
 MysqlStore.prototype.set = function mysqlstore_set (key, value, lifetime, callback) {
 	lifetime = parseInt(lifetime, 10) || 0;
@@ -59,3 +59,4 @@ MysqlStore.defaults = {
 	table: 'brute_log'
 };
 
+module.exports = MysqlStore;
