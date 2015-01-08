@@ -2,7 +2,7 @@ var AbstractClientStore = require('express-brute/lib/AbstractClientStore');
 var mysql = require('mysql');
 var _ = require('underscore');
 
-var MysqlStore = module.exports = function (options) {
+module.exports = function MysqlStore (options) {
 	AbstractClientStore.apply(this, arguments);
 	var client = this.client = mysql.createConnection(this.options);
 	this.options = _.extend({}, MysqlStore.defaults, options);
@@ -11,7 +11,7 @@ var MysqlStore = module.exports = function (options) {
 	});
 };
 MysqlStore.prototype = Object.create(AbstractClientStore.prototype);
-MysqlStore.prototype.set = function (key, value, lifetime, callback) {
+MysqlStore.prototype.set = function mysqlstore_set (key, value, lifetime, callback) {
 	lifetime = parseInt(lifetime, 10) || 0;
 	var expires = new Date(Date.now() + lifetime);
 	value = JSON.stringify(value);
@@ -19,7 +19,7 @@ MysqlStore.prototype.set = function (key, value, lifetime, callback) {
 		if (callback) { return callback(err, res); }
 	});
 };
-MysqlStore.prototype.get = function (key, callback) {
+MysqlStore.prototype.get = function mysqlstore_get (key, callback) {
 	var options = this.options;
 	var client = this.client;
 	client.query('SELECT * FROM '  + options.table + ' WHERE `id` = ? LIMIT 1', [key], function (err, res) {
@@ -41,7 +41,7 @@ MysqlStore.prototype.get = function (key, callback) {
 		}
 	});
 };
-MysqlStore.prototype.reset = function (key, callback) {
+MysqlStore.prototype.reset = function mysqlstore_reset (key, callback) {
 	this.client.query('DELETE FROM '  + this.options.table + ' WHERE `id` = ? LIMIT 1', [key], function (err, res) {
 		if (callback) { return callback(err, res); }
 	});
