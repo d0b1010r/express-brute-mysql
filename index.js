@@ -4,7 +4,7 @@ var _ = require('underscore');
 
 function MysqlStore (options) {
 	AbstractClientStore.apply(this, arguments);
-	var client = this.client = mysql.createConnection(this.options);
+	var client = this.client = mysql.createConnection(options);
 	this.options = _.extend({}, MysqlStore.defaults, options);
 	client.connect();
 	client.query('CREATE TABLE IF NOT EXISTS `'  + this.options.table + '` (`id` varchar(255), `data` TEXT, `expires` datetime, PRIMARY KEY (`id`))', function (err, res) {
