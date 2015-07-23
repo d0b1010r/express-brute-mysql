@@ -1,6 +1,6 @@
 {
   "name": "express-brute-mysql",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "description": "A store for express-brute backed by mysql.",
   "main": "index.js",
   "scripts": {
