@@ -1,6 +1,6 @@
 {
   "name": "express-brute-mysql",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "A store for express-brute backed by mysql.",
   "main": "index.js",
   "scripts": {
@@ -15,9 +15,9 @@
     "underscore": "^1.8.3"
   },
   "peerDependencies": {
-    "express-brute": "<=0.6.0"
+    "express-brute": ">=1.0.0"
   },
-  "author": "david@urbansmarts.de",
+  "author": "david@casavi.de",
   "license": "ISC",
   "private": true
 }
