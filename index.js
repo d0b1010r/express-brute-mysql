@@ -23,8 +23,8 @@ MysqlStore.prototype.get = function mysqlstore_get (key, callback) {
 	var options = this.options;
 	var client = this.client;
 	client.query('SELECT * FROM `'  + options.table + '` WHERE `id` = ? LIMIT 1', [key], function (err, res) {
-		res = res.length && res[0];
 		if (err && callback) { return callback(err); }
+		res = res.length && res[0];
 		if (callback) {
 			var data;
 			if (!res) { return callback(); }
